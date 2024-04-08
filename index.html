@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            color: #ff69b4;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #ff69b4;
+            color: purple;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginPage">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div id="gamePage" style="display: none;">
+        <h1>Love Game</h1>
+        <form id="loveForm">
+            <label for="yourName">Your Name:</label>
+            <input type="text" id="yourName" required><br>
+            <label for="partnerName">Partner's Name:</label>
+            <input type="text" id="partnerName" required><br>
+            <button type="submit">Check Love</button>
+        </form>
+
+        <div id="result" style="display: none;">
+            <h2 id="loveScore"></h2>
+            <button id="shareInstagram">Share on Instagram</button>
+            <button id="shareWhatsApp">Share on WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        // Object to store love scores for each pair of partners
+        var loveScores = {};
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Check username and password
+            // For simplicity, let's assume login is successful if fields are not empty
+            if (username !== "" && password !== "") {
+                // Hide login page and show game page
+                document.getElementById("loginPage").style.display = "none";
+                document.getElementById("gamePage").style.display = "block";
+            } else {
+                alert("Please enter username and password.");
+            }
+        });
+
+        document.getElementById("loveForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var yourName = document.getElementById("yourName").value;
+            var partnerName = document.getElementById("partnerName").value;
+
+            // Check if love score already exists for this pair of partners
+            var loveKey = yourName.toLowerCase() + "_" + partnerName.toLowerCase();
+            var reversedLoveKey = partnerName.toLowerCase() + "_" + yourName.toLowerCase();
+            var loveScore;
+            if (loveScores.hasOwnProperty(loveKey)) {
+                loveScore = loveScores[loveKey];
+            } else if (loveScores.hasOwnProperty(reversedLoveKey)) {
+                loveScore = loveScores[reversedLoveKey];
+            } else {
+                // Calculate a random love score between 70 and 100
+                loveScore = Math.floor(Math.random() * 31) + 70;
+                // Store love score for this pair of partners
+                loveScores[loveKey] = loveScore;
+            }
+
+            // Display love score result
+            document.getElementById("loveScore").innerText = "Your partner loves you " + loveScore + "%!";
+            document.getElementById("result").style.display = "block";
+        });
+
+        document.getElementById("shareInstagram").addEventListener("click", function() {
+            var loveScore = document.getElementById("loveScore").innerText;
+            var instagramURL = "https://instagram.com";
+            var caption = "My partner loves me " + loveScore + "! Let's play the Love Game!";
+            window.open(instagramURL + "/?text=" + encodeURIComponent(caption));
+        });
+
+        document.getElementById("shareWhatsApp").addEventListener("click", function() {
+            var loveScore = document.getElementById("loveScore").innerText;
+            var whatsappURL = "https://wa.me/?text=";
+            var message = "My partner loves me " + loveScore + "! Let's play the Love Game!";
+            window.open(whatsappURL + encodeURIComponent(message));
+        });
+    </script>
+</body>
+</html>
