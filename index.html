@@ -60,18 +60,7 @@
         document.getElementById("loginForm").addEventListener("submit", function(event) {
             event.preventDefault();
             var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-
-            // Check username and password
-            // For simplicity, let's assume login is successful if fields are not empty
-            if (username !== "" && password !== "") {
-                // Hide login page and show game page
-                document.getElementById("loginPage").style.display = "none";
-                document.getElementById("gamePage").style.display = "block";
-            } else {
-                alert("Please enter username and password.");
-            }
-        });
+            var password = document.getElementById("password").value
 
         document.getElementById("loveForm").addEventListener("submit", function(event) {
             event.preventDefault();
